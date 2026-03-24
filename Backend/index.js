@@ -12,10 +12,16 @@ app.use(express.json());
 
 // Setup Nodemailer Transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // You can change this to SendGrid, Resend, etc. if needed
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  // Force IPv4 to bypass Render's ENETUNREACH IPv6 routing errors
+  tls: {
+    rejectUnauthorized: false
+  },
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // Use an App Password if using Gmail
+    pass: process.env.EMAIL_PASS,
   },
 });
 
