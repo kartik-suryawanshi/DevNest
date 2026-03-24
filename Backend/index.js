@@ -15,6 +15,7 @@ const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 465,
   secure: true,
+  family: 4,
   // Force IPv4 to bypass Render's ENETUNREACH IPv6 routing errors
   tls: {
     rejectUnauthorized: false
