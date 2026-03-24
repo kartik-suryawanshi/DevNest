@@ -44,9 +44,9 @@ const STAT_LINES = [
 ];
 
 const TEAM = [
-  { flag: '--founder', name: 'Surya', role: 'Architect & Director' },
-  { flag: '--design', name: 'Nikhil', role: 'UX/UI Alchemist' },
-  { flag: '--engineer', name: 'Rahul', role: 'Core Logic Developer' }
+  { flag: '--founder', name: 'Kartik', role: 'Architect & Director' },
+  { flag: '--design', name: 'Purvesh', role: 'UX/UI Alchemist' },
+  { flag: '--engineer', name: 'Aniket', role: 'Core Logic Developer' }
 ];
 
 export default function About() {
