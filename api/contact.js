@@ -1,35 +1,32 @@
-const express = require('express');
-const cors = require('cors');
-const { Resend } = require('resend');
-require('dotenv').config();
+import { Resend } from 'resend';
 
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Setup Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// Health check route
-app.get('/', (req, res) => {
-  res.send('DevNest Contact API Operational');
-});
+export default async function handler(req, res) {
+  // CORS Handling (in case of cross-origin requests, though usually unnecessary on Vercel same-domain)
+  if (req.method === 'OPTIONS') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    return res.status(200).end();
+  }
 
-// Contact Form Endpoint
-app.post('/api/contact', async (req, res) => {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+  }
+
   const { fullName, email, message } = req.body;
 
   if (!fullName || !email || !message) {
     return res.status(400).json({ error: 'Missing required configuration parameters.' });
   }
 
+  const recipientEmail = process.env.EMAIL_USER;
+
   try {
     const { data, error } = await resend.emails.send({
       from: 'DevNest Form <onboarding@resend.dev>',
-      to: process.env.EMAIL_USER, // The email you registered on Resend with
+      to: recipientEmail, // The email you registered on Resend with
       replyTo: email,
       subject: `[DevNest Lead] New Project Initiation from ${fullName}`,
       html: `
@@ -61,13 +58,9 @@ app.post('/api/contact', async (req, res) => {
       return res.status(500).json({ error: 'Failed to process transmission logs. System error.' });
     }
 
-    res.status(200).json({ success: true, message: 'Transmission successful.' });
+    return res.status(200).json({ success: true, message: 'Transmission successful.' });
   } catch (error) {
     console.error('Email Dispatch Error:', error);
-    res.status(500).json({ error: 'Failed to process transmission logs. System error.' });
+    return res.status(500).json({ error: 'Failed to process transmission logs. System error.' });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`[DevNest API] Online and listening on port ${PORT}`);
-});
+}

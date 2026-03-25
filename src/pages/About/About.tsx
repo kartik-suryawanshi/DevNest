@@ -17,7 +17,7 @@ function TypewriterText({ text, delay = 0, className = "" }: { text: string; del
       }} 
       initial="hidden" 
       whileInView="visible" 
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-10px" }}
       className={className}
     >
       {text.split('').map((char, i) => (
@@ -46,7 +46,8 @@ const STAT_LINES = [
 const TEAM = [
   { flag: '--founder', name: 'Kartik', role: 'Architect & Director' },
   { flag: '--design', name: 'Purvesh', role: 'UX/UI Alchemist' },
-  { flag: '--engineer', name: 'Aniket', role: 'Core Logic Developer' }
+  { flag: '--engineer', name: 'Aniket', role: 'Core Logic Developer' },
+  { flag: '--marketing', name: 'Prerana', role: 'Marketing & Growth' }
 ];
 
 export default function About() {

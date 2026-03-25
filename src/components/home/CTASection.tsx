@@ -24,10 +24,7 @@ export default function CTASection() {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      // In production, configure VITE_API_URL in your hosting platform (Vercel, Netlify)
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      
-      const res = await fetch(`${API_URL}/api/contact`, {
+      const res = await fetch(`/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
